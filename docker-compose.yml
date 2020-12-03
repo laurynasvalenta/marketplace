@@ -1,0 +1,19 @@
+version: '2.4'
+services:
+  nginx:
+    image: nginx:1.19.5-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - './frontend-service:/home/project/src'
+    ports:
+      - 80:80
+    depends_on:
+      - frontend-service-php
+
+  frontend-service-php:
+    image: nfqlt/php74-fpm:latest
+    volumes:
+      - './frontend-service:/home/project/src'
+    environment:
+      NFQ_ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
+    user: 1000:1000
