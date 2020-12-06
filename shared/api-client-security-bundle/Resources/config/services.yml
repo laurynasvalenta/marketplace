@@ -5,6 +5,8 @@ services:
     Shared\ApiClientSecurityBundle\Provider\AuthorizationHeaderProvider:
         arguments:
             - '@Symfony\Component\Serializer\Normalizer\NormalizerInterface'
+            - '@Shared\ApiGeneralBundle\Storage\SecurityContextStorageInterface'
+            - '@Symfony\Component\Security\Core\Security'
             - '%client.api_jwt_encryption_key%'
     Shared\ApiClientSecurityBundle\Provider\AuthorizationHeaderProviderInterface: '@Shared\ApiClientSecurityBundle\Provider\AuthorizationHeaderProvider'
 

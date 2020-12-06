@@ -4,6 +4,8 @@ namespace Shared\ApiClientSecurityBundle\Provider;
 
 use Firebase\JWT\JWT;
 use Shared\ApiGeneralBundle\Dto\SecurityContext;
+use Shared\ApiGeneralBundle\Storage\SecurityContextStorageInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class AuthorizationHeaderProvider implements AuthorizationHeaderProviderInterface
@@ -22,12 +24,30 @@ class AuthorizationHeaderProvider implements AuthorizationHeaderProviderInterfac
     private $normalizer;
 
     /**
+     * @var SecurityContextStorageInterface
+     */
+    private $securityContextStorage;
+
+    /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * @param NormalizerInterface $normalizer
+     * @param SecurityContextStorageInterface $securityContextStorage
+     * @param Security $security
      * @param string $jwtKey
      */
-    public function __construct(NormalizerInterface $normalizer, string $jwtKey)
-    {
+    public function __construct(
+        NormalizerInterface $normalizer,
+        SecurityContextStorageInterface $securityContextStorage,
+        Security $security,
+        string $jwtKey
+    ) {
         $this->normalizer = $normalizer;
+        $this->securityContextStorage = $securityContextStorage;
+        $this->security = $security;
         $this->jwtKey = $jwtKey;
     }
 
@@ -57,6 +77,20 @@ class AuthorizationHeaderProvider implements AuthorizationHeaderProviderInterfac
      */
     private function buildSecurityContext(): SecurityContext
     {
-        return new SecurityContext();
+        $securityContext = $this->securityContextStorage->getSecurityContext();
+
+        if (isset($securityContext)) {
+            return $securityContext;
+        }
+
+        $securityContext = new SecurityContext();
+        $user = $this->security->getUser();
+
+        if ($user !== null) {
+            $securityContext->setIsAnonymous(false);
+            $securityContext->setUserIdentifier($user->getUsername());
+        }
+
+        return $securityContext;
     }
 }

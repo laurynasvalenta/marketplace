@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Api\Reader\UserReaderInterface;
 use App\Api\Writer\UserWriterInterface;
+use Exception;
 use Shared\ApiGeneralBundle\Exception\Resource\ResourceExceptionInterface;
 use Shared\UserDto\Dto\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,8 +36,11 @@ class ApiController
      * @param UserReaderInterface $userReader
      * @param UserWriterInterface $userWriter
      */
-    public function __construct(SerializerInterface $serializer, UserReaderInterface $userReader, UserWriterInterface $userWriter)
-    {
+    public function __construct(
+        SerializerInterface $serializer,
+        UserReaderInterface $userReader,
+        UserWriterInterface $userWriter
+    ) {
         $this->serializer = $serializer;
         $this->userReader = $userReader;
         $this->userWriter = $userWriter;
@@ -59,12 +63,12 @@ class ApiController
         try {
             $user = $this->userWriter->create($user);
         } catch (ResourceExceptionInterface $resourceException) {
-            return new JsonResponse($this->serializer->serialize($resourceException, 'json'), $resourceException->getHttpResponseCode(), [], true);
+            return $this->buildErrorResponse($resourceException, $resourceException->getHttpResponseCode());
         } catch (Throwable $genericException) {
-            return new JsonResponse($this->serializer->serialize($genericException, 'json'), Response::HTTP_INTERNAL_SERVER_ERROR, [], true);
+            return $this->buildErrorResponse($genericException, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return new JsonResponse($this->serializer->serialize($user, 'json'), Response::HTTP_CREATED, [], true);
+        return $this->buildResponse($user, Response::HTTP_CREATED);
     }
 
     /**
@@ -82,11 +86,33 @@ class ApiController
         try {
             $user = $this->userReader->findBy($email, $password);
         } catch (ResourceExceptionInterface $resourceException) {
-            return new JsonResponse($this->serializer->serialize($resourceException, 'json'), $resourceException->getHttpResponseCode(), [], true);
+            return $this->buildErrorResponse($resourceException, $resourceException->getHttpResponseCode());
         } catch (Throwable $genericException) {
-            return new JsonResponse($this->serializer->serialize($genericException, 'json'), Response::HTTP_INTERNAL_SERVER_ERROR, [], true);
+            return $this->buildErrorResponse($genericException, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return new JsonResponse($this->serializer->serialize($user, 'json'), Response::HTTP_CREATED, [], true);
+        return $this->buildResponse($user, Response::HTTP_OK);
+    }
+
+    /**
+     * @param Exception $exception
+     * @param int $responseCode
+     *
+     * @return JsonResponse
+     */
+    private function buildErrorResponse(Exception $exception, int $responseCode): JsonResponse
+    {
+        return new JsonResponse($this->serializer->serialize($exception, 'json'), $responseCode, [], true);
+    }
+
+    /**
+     * @param object $object
+     * @param int $responseCode
+     *
+     * @return JsonResponse
+     */
+    private function buildResponse(object $object, int $responseCode): JsonResponse
+    {
+        return new JsonResponse($this->serializer->serialize($object, 'json'), $responseCode, [], true);
     }
 }
