@@ -1,0 +1,11 @@
+security:
+  providers:
+    null_provider:
+      chain: ~
+
+  firewalls:
+    main:
+      anonymous: false
+      guard:
+        authenticators:
+          - Shared\ApiServerSecurityBundle\Security\JwtAuthenticator

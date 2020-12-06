@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        public: true
+
+    Shared\ProductClientBundle\ProductClient:
+        arguments:
+            - '@Symfony\Component\Serializer\SerializerInterface'
+            - '@Shared\ApiClientSecurityBundle\Factory\ClientFactoryInterface'
+            - '%product_client.api_base_url%'
+
+    Shared\ProductClientBundle\ProductClientInterface: '@Shared\ProductClientBundle\ProductClient'

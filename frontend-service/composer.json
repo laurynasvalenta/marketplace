@@ -36,7 +36,9 @@
             "Shared\\ApiClientSecurityBundle\\": "../shared/api-client-security-bundle/",
             "Shared\\ApiGeneralBundle\\": "../shared/api-general-bundle/",
             "Shared\\AuthClientBundle\\": "../shared/auth-client-bundle/",
-            "Shared\\UserDto\\": "../shared/user-dto/"
+            "Shared\\ProductClientBundle\\": "../shared/product-client-bundle/",
+            "Shared\\UserDto\\": "../shared/user-dto/",
+            "Shared\\ProductDto\\": "../shared/product-dto/"
         }
     },
     "autoload-dev": {

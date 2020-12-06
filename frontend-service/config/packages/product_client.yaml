@@ -1,0 +1,2 @@
+product_client:
+    api_base_url: '%env(resolve:PRODUCT_API_BASE_URL)%'

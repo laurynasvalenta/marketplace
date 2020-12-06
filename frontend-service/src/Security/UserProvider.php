@@ -38,17 +38,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     }
 
     /**
-     * Refreshes the user after being reloaded from the session.
-     *
-     * When a user is logged in, at the beginning of each request, the
-     * User object is loaded from the session and then this method is
-     * called. Your job is to make sure the user's data is still fresh by,
-     * for example, re-querying for fresh User data.
-     *
-     * If your firewall is "stateless: true" (for a pure API), this
-     * method is not called.
-     *
-     * @return UserInterface
+     * {@inheritDoc}
      */
     public function refreshUser(UserInterface $user)
     {
@@ -60,7 +50,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     }
 
     /**
-     * Tells Symfony to use this provider for this User class.
+     * {@inheritDoc}
      */
     public function supportsClass(string $class)
     {
@@ -68,12 +58,9 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     }
 
     /**
-     * Upgrades the encoded password of a user, typically for using a better hash algorithm.
+     * {@inheritDoc}
      */
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
-        // TODO: when encoded passwords are in use, this method should:
-        // 1. persist the new password in the user storage
-        // 2. update the $user object with $user->setPassword($newEncodedPassword);
     }
 }

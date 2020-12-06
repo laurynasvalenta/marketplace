@@ -87,7 +87,7 @@ class AuthorizationHeaderProvider implements AuthorizationHeaderProviderInterfac
         $user = $this->security->getUser();
 
         if ($user !== null) {
-            $securityContext->setIsAnonymous(false);
+            $securityContext->setAnonymous(false);
             $securityContext->setUserIdentifier($user->getUsername());
         }
 

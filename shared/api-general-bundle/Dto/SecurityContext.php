@@ -9,7 +9,7 @@ class SecurityContext
     /**
      * @var bool
      */
-    private $isAnonymous = true;
+    private $anonymous = true;
 
     /**
      * @var string
@@ -19,17 +19,17 @@ class SecurityContext
     /**
      * @return bool
      */
-    public function isAnonymous(): bool
+    public function getAnonymous(): bool
     {
-        return $this->isAnonymous;
+        return $this->anonymous;
     }
 
     /**
-     * @param bool $isAnonymous
+     * @param bool $anonymous
      */
-    public function setIsAnonymous(bool $isAnonymous): void
+    public function setAnonymous(bool $anonymous): void
     {
-        $this->isAnonymous = $isAnonymous;
+        $this->anonymous = $anonymous;
     }
 
     /**
