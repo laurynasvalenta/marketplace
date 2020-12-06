@@ -4,16 +4,20 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      * @ORM\Column(type="uuid")
      */
     private $uuid;
@@ -34,16 +38,39 @@ class User implements UserInterface
      */
     private $password;
 
-    public function getUuid(): ?int
+    /**
+     * @return string|null
+     */
+    public function getUuid(): ?string
     {
         return $this->uuid;
     }
 
+    /**
+     * @param string $uuid
+     *
+     * @return self
+     */
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     *
+     * @return self
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -73,6 +100,11 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     *
+     * @return self
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -88,6 +120,11 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
+    /**
+     * @param string $password
+     *
+     * @return self
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;

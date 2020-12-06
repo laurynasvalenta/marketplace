@@ -16,6 +16,7 @@ services:
     image: nfqlt/php74-fpm:latest
     volumes:
       - './frontend-service:/home/project/src'
+      - './shared:/home/project/shared'
     environment:
       NFQ_ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
 
@@ -23,6 +24,7 @@ services:
     image: nfqlt/php74-fpm:latest
     volumes:
       - './auth-service:/home/project/src'
+      - './shared:/home/project/shared'
     environment:
       NFQ_ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
 

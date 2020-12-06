@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+
+    Shared\ApiClientSecurityBundle\Provider\AuthorizationHeaderProvider:
+        arguments:
+            - '@Symfony\Component\Serializer\Normalizer\NormalizerInterface'
+            - '%client.api_jwt_encryption_key%'
+    Shared\ApiClientSecurityBundle\Provider\AuthorizationHeaderProviderInterface: '@Shared\ApiClientSecurityBundle\Provider\AuthorizationHeaderProvider'
+
+    Shared\ApiClientSecurityBundle\Factory\ClientFactory: ~
+    Shared\ApiClientSecurityBundle\Factory\ClientFactoryInterface: '@Shared\ApiClientSecurityBundle\Factory\ClientFactory'

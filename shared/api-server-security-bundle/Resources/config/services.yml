@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        public: true
+
+    Shared\ApiServerSecurityBundle\Security\JwtAuthenticator:
+        arguments:
+            - '@Symfony\Component\Serializer\Normalizer\DenormalizerInterface'
+            - '@Shared\ApiGeneralBundle\Storage\SecurityContextStorageInterface'
+            - '%api_security.api_jwt_encryption_key%'
