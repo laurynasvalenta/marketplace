@@ -1,0 +1,2 @@
+api_client_security:
+    api_jwt_encryption_key: '%env(resolve:API_AUTHORIZATION_KEY)%'

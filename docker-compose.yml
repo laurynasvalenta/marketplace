@@ -52,3 +52,19 @@ services:
     environment:
       MYSQL_ROOT_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'root'
+
+  order-service-php:
+    image: nfqlt/php74-fpm:latest
+    container_name: order-service-php
+    volumes:
+      - './order-service:/home/project/src'
+      - './shared:/home/project/shared'
+    environment:
+      NFQ_ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
+
+  order-service-db:
+    image: mysql:8.0.22
+    container_name: order-service-db
+    environment:
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'

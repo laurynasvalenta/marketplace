@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        public: true
+
+    Shared\OrderClientBundle\OrderClient:
+        arguments:
+            - '@Symfony\Component\Serializer\SerializerInterface'
+            - '@Shared\ApiClientSecurityBundle\Factory\ClientFactoryInterface'
+            - '%order_client.api_base_url%'
+
+    Shared\OrderClientBundle\OrderClientInterface: '@Shared\OrderClientBundle\OrderClient'
