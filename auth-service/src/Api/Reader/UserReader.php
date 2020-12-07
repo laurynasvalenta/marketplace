@@ -21,6 +21,7 @@ class UserReader implements UserReaderInterface
 
     /**
      * @param UserRepository $userRepository
+     * @param UserPasswordEncoderInterface $userEncoder
      */
     public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $userEncoder)
     {

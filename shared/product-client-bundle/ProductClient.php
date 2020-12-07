@@ -5,14 +5,11 @@ namespace Shared\ProductClientBundle;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Client\ClientInterface;
-use Shared\ApiGeneralBundle\Exception\Resource\BadRequestResourceException;
 use Shared\ApiClientSecurityBundle\Client\BaseUrlProviderInterface;
 use Shared\ApiClientSecurityBundle\Factory\ClientFactoryInterface;
 use Shared\ApiGeneralBundle\Exception\Resource\ResourceNotFoundException;
-use Shared\ApiGeneralBundle\Exception\Resource\UnauthorizedResourceException;
 use Shared\ApiGeneralBundle\Utils\ErrorHandler;
 use Shared\ProductDto\Dto\Product;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ProductClient implements ProductClientInterface, BaseUrlProviderInterface
@@ -67,9 +64,7 @@ class ProductClient implements ProductClientInterface, BaseUrlProviderInterface
     }
 
     /**
-     * @param Product $product
-     *
-     * @return Product
+     * {@inheritDoc}
      */
     public function createProduct(Product $product): Product
     {
@@ -85,11 +80,7 @@ class ProductClient implements ProductClientInterface, BaseUrlProviderInterface
     }
 
     /**
-     * @param string $uuid
-     *
-     * @return Product
-     *
-     * @throws ResourceNotFoundException
+     * {@inheritDoc}
      */
     public function findProduct(string $uuid): Product
     {

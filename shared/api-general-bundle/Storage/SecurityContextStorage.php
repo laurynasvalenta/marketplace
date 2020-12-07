@@ -12,7 +12,7 @@ class SecurityContextStorage implements SecurityContextStorageInterface
     private $securityContext;
 
     /**
-     * @return SecurityContext
+     * {@inheritDoc}
      */
     public function getSecurityContext(): ?SecurityContext
     {
@@ -20,9 +20,7 @@ class SecurityContextStorage implements SecurityContextStorageInterface
     }
 
     /**
-     * @param SecurityContext $securityContext
-     *
-     * @return void
+     * {@inheritDoc}
      */
     public function setSecurityContext(SecurityContext $securityContext): void
     {

@@ -50,7 +50,7 @@ class ApiController
      *
      * @param Request $request
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function createOrder(Request $request): JsonResponse
     {
@@ -74,6 +74,7 @@ class ApiController
      * @Route("/api/order/{uuid}", methods={"GET"})
      *
      * @param string $uuid
+     *
      * @return JsonResponse
      */
     public function findOrder(string $uuid): JsonResponse

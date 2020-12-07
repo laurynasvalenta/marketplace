@@ -5,6 +5,7 @@ namespace App\Api\ProductWriter;
 use App\Entity\Product as ProductEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use Shared\ApiGeneralBundle\Exception\Resource\BadRequestResourceException;
+use Shared\ApiGeneralBundle\Exception\Resource\ResourceExceptionInterface;
 use Shared\ApiGeneralBundle\Exception\Resource\UnauthorizedResourceException;
 use Shared\ApiGeneralBundle\Storage\SecurityContextStorageInterface;
 use Shared\ProductDto\Dto\Product;
@@ -35,9 +36,7 @@ class ProductWriter implements ProductWriterInterface
     }
 
     /**
-     * @param Product $product
-     *
-     * @return Product
+     * {@inheritDoc}
      */
     public function createProduct(Product $product): Product
     {
@@ -64,6 +63,8 @@ class ProductWriter implements ProductWriterInterface
 
     /**
      * @return string
+     *
+     * @throws ResourceExceptionInterface
      */
     private function getOwnerId(): string
     {
