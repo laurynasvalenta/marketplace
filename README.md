@@ -15,7 +15,7 @@ The application should now be accessible on http://localhost.
 
 The application contains a Showcase test suite that represents features of the services. To run these tests please launch the following command:
 ```
-docker exec -it -u project frontend-service-php 'bin/phpunit'
+docker exec -it -u project frontend-service-php 'vendor/bin/simple-phpunit'
 ```
 
 The tests themselves can be reviewed in `frontend-service/tests/Showcase/`.
