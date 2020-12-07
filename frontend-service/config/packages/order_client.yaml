@@ -1,0 +1,2 @@
+order_client:
+    api_base_url: '%env(resolve:ORDER_API_BASE_URL)%'

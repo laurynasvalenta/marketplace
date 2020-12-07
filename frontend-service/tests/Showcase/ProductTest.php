@@ -4,36 +4,15 @@ namespace App\Tests\Showcase;
 
 use App\Security\UserSetter;
 use Faker\Factory;
-use Faker\Generator;
 use Shared\ApiGeneralBundle\Exception\Resource\UnauthorizedResourceException;
 use Shared\AuthClientBundle\AuthClientInterface;
 use Shared\ProductClientBundle\ProductClientInterface;
-use Shared\ProductDto\Dto\Product;
-use Shared\UserDto\Dto\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class ProductTest extends WebTestCase
 {
-    /**
-     * @var ProductClientInterface
-     */
-    private $productClient;
-
-    /**
-     * @var AuthClientInterface
-     */
-    private $authClient;
-
-    /**
-     * @var Generator
-     */
-    private $faker;
-
-    /**
-     * @var UserSetter
-     */
-    private $userSetter;
+    use CustomerLoginTrait;
+    use ProductCreateTrait;
 
     /**
      * @return void
@@ -60,15 +39,7 @@ class ProductTest extends WebTestCase
     {
         $this->loginAsACustomer();
 
-        $newProduct = new Product();
-        $newProduct->setName($this->faker->name);
-        $newProduct->setDescription($this->faker->text(455));
-        $newProduct->setPriceAmount(1995);
-        $newProduct->setPriceCurrency($this->faker->currencyCode);
-        $newProduct->setQuantityAvailable(6);
-
-        $newProduct = $this->productClient->createProduct($newProduct);
-
+        $newProduct = $this->createProduct();
         $fetchedProduct = $this->productClient->findProduct($newProduct->getUuid());
 
         $this->assertEquals($newProduct->getUuid(), $fetchedProduct->getUuid());
@@ -89,33 +60,6 @@ class ProductTest extends WebTestCase
     {
         $this->expectException(UnauthorizedResourceException::class);
 
-        $newProduct = new Product();
-        $newProduct->setName($this->faker->name);
-        $newProduct->setDescription($this->faker->text(455));
-        $newProduct->setPriceAmount(1995);
-        $newProduct->setPriceCurrency($this->faker->currencyCode);
-        $newProduct->setQuantityAvailable(6);
-
-        $this->productClient->createProduct($newProduct);
-    }
-
-    /**
-     * @return void
-     */
-    private function loginAsACustomer(): void
-    {
-        $user = new User();
-        $user->setEmail($this->faker->email);
-        $user->setPassword($this->faker->password);
-
-        $this->authClient->createUser($user);
-
-        $token = new UsernamePasswordToken(
-            $this->userSetter->getUserProvider()->loadUserByUsername($user->getEmail()),
-            $user->getPassword(),
-            'main'
-        );
-
-        $this->userSetter->setToken($token);
+        $this->createProduct();
     }
 }

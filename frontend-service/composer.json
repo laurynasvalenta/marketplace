@@ -37,8 +37,10 @@
             "Shared\\ApiGeneralBundle\\": "../shared/api-general-bundle/",
             "Shared\\AuthClientBundle\\": "../shared/auth-client-bundle/",
             "Shared\\ProductClientBundle\\": "../shared/product-client-bundle/",
+            "Shared\\OrderClientBundle\\": "../shared/order-client-bundle/",
             "Shared\\UserDto\\": "../shared/user-dto/",
-            "Shared\\ProductDto\\": "../shared/product-dto/"
+            "Shared\\ProductDto\\": "../shared/product-dto/",
+            "Shared\\OrderDto\\": "../shared/order-dto/"
         }
     },
     "autoload-dev": {
