@@ -26,8 +26,10 @@ class ProductWriter implements ProductWriterInterface
      * @param EntityManagerInterface $entityManager
      * @param SecurityContextStorageInterface $securityContextStorage
      */
-    public function __construct(EntityManagerInterface $entityManager, SecurityContextStorageInterface $securityContextStorage)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        SecurityContextStorageInterface $securityContextStorage
+    ) {
         $this->entityManager = $entityManager;
         $this->securityContextStorage = $securityContextStorage;
     }
