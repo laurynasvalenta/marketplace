@@ -8,6 +8,7 @@ services:
       - 80:80
       - 81:81
       - 82:82
+      - 83:83
     depends_on:
       - frontend-service-php
       - auth-service-php
