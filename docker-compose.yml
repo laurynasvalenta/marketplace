@@ -13,22 +13,24 @@ services:
       - auth-service-php
 
   frontend-service-php:
-    image: nfqlt/php74-fpm:latest
+    build: ./env/php
     container_name: frontend-service-php
     volumes:
       - './frontend-service:/home/project/src'
       - './shared:/home/project/shared'
     environment:
-      NFQ_ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
+      ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
 
   auth-service-php:
-    image: nfqlt/php74-fpm:latest
+    build: ./env/php
     container_name: auth-service-php
     volumes:
       - './auth-service:/home/project/src'
       - './shared:/home/project/shared'
+    depends_on:
+      - auth-service-db
     environment:
-      NFQ_ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
+      ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
 
   auth-service-db:
     image: mysql:8.0.22
@@ -38,13 +40,15 @@ services:
       MYSQL_ROOT_PASSWORD: 'root'
 
   product-service-php:
-    image: nfqlt/php74-fpm:latest
+    build: ./env/php
     container_name: product-service-php
     volumes:
       - './product-service:/home/project/src'
       - './shared:/home/project/shared'
+    depends_on:
+      - product-service-db
     environment:
-      NFQ_ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
+      ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
 
   product-service-db:
     image: mysql:8.0.22
@@ -54,13 +58,15 @@ services:
       MYSQL_ROOT_PASSWORD: 'root'
 
   order-service-php:
-    image: nfqlt/php74-fpm:latest
+    build: ./env/php
     container_name: order-service-php
     volumes:
       - './order-service:/home/project/src'
       - './shared:/home/project/shared'
+    depends_on:
+      - order-service-db
     environment:
-      NFQ_ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
+      ENABLE_PHP_MODULES: 'mysqlnd pdo pdo_mysql pdo_sqlite curl json intl mbstring gd xml zip ctype exif pdo_sqlite ftp tokenizer dom simplexml apcu xmlwriter fileinfo bcmath iconv xdebug posix xmlreader soap imap ssh2 phar'
 
   order-service-db:
     image: mysql:8.0.22
