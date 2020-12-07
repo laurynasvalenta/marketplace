@@ -4,6 +4,7 @@ namespace App\Tests\Showcase;
 
 use App\Security\UserSetter;
 use Faker\Factory;
+use Shared\ApiGeneralBundle\Exception\Resource\BadRequestResourceException;
 use Shared\AuthClientBundle\AuthClientInterface;
 use Shared\OrderDto\Dto\Order;
 use Shared\OrderClientBundle\OrderClientInterface;
@@ -14,6 +15,8 @@ class OrderTest extends WebTestCase
 {
     use CustomerLoginTrait;
     use ProductCreateTrait;
+
+    private const SAME_OWNER_ERROR_MESSAGE = 'error.owner.same';
 
     /**
      * @var OrderClientInterface
@@ -55,9 +58,39 @@ class OrderTest extends WebTestCase
         $order->setQuantity(2);
 
         $order = $this->orderClient->createOrder($order);
-
         $fetchedOrder = $this->orderClient->findOrder($order->getUuid());
 
+        $this->assertSameOrder($order, $fetchedOrder);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function customerCannotPlaceAnOrderForHisOwnProduct(): void
+    {
+        $this->expectException(BadRequestResourceException::class);
+        $this->expectErrorMessage(self::SAME_OWNER_ERROR_MESSAGE);
+
+        $this->loginAsACustomer();
+        $product = $this->createProduct();
+
+        $order = new Order();
+        $order->setProductUuid($product->getUuid());
+        $order->setQuantity(2);
+
+        $this->orderClient->createOrder($order);
+    }
+
+    /**
+     * @param Order $order
+     * @param Order $fetchedOrder
+     *
+     * @return void
+     */
+    protected function assertSameOrder(Order $order, Order $fetchedOrder): void
+    {
         $this->assertEquals($order->getUuid(), $fetchedOrder->getUuid());
         $this->assertEquals($order->getProductUuid(), $fetchedOrder->getProductUuid());
         $this->assertEquals($order->getQuantity(), $fetchedOrder->getQuantity());

@@ -4,3 +4,6 @@ services:
 
     Shared\ApiGeneralBundle\Storage\SecurityContextStorage: ~
     Shared\ApiGeneralBundle\Storage\SecurityContextStorageInterface: '@Shared\ApiGeneralBundle\Storage\SecurityContextStorage'
+
+    Shared\ApiGeneralBundle\Utils\ErrorHandler:
+        autowire: true

@@ -9,6 +9,7 @@ use Psr\Http\Client\ClientInterface;
 use Shared\ApiGeneralBundle\Exception\Resource\BadRequestResourceException;
 use Shared\ApiClientSecurityBundle\Client\BaseUrlProviderInterface;
 use Shared\ApiClientSecurityBundle\Factory\ClientFactoryInterface;
+use Shared\ApiGeneralBundle\Utils\ErrorHandler;
 use Shared\UserDto\Dto\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -28,6 +29,11 @@ class AuthClient implements AuthClientInterface, BaseUrlProviderInterface
     private $httpClient;
 
     /**
+     * @var ErrorHandler
+     */
+    private $errorHandler;
+
+    /**
      * @var string
      */
     private $apiBaseUrl;
@@ -35,17 +41,20 @@ class AuthClient implements AuthClientInterface, BaseUrlProviderInterface
     /**
      * @param SerializerInterface $serializer
      * @param ClientFactoryInterface $httpClientFactory
+     * @param ErrorHandler $errorHandler
      * @param string $apiBaseUrl
      */
     public function __construct(
         SerializerInterface $serializer,
         ClientFactoryInterface $httpClientFactory,
+        ErrorHandler $errorHandler,
         string $apiBaseUrl
     ) {
         $this->apiBaseUrl = $apiBaseUrl;
 
         $this->serializer = $serializer;
         $this->httpClient = $httpClientFactory->createClient($this);
+        $this->errorHandler = $errorHandler;
     }
 
     /**
@@ -57,9 +66,7 @@ class AuthClient implements AuthClientInterface, BaseUrlProviderInterface
         
         $response = $this->httpClient->sendRequest($request);
 
-        if ($response->getStatusCode() === Response::HTTP_BAD_REQUEST) {
-            throw new BadRequestResourceException();
-        }
+        $this->errorHandler->handleResponse($response);
     }
 
     /**
@@ -95,6 +102,8 @@ class AuthClient implements AuthClientInterface, BaseUrlProviderInterface
     {
         $request = new Request('GET', $uri);
         $response = $this->httpClient->sendRequest($request);
+
+        $this->errorHandler->handleResponse($response);
 
         /** @var User $user  */
         $user = $this->serializer->deserialize((string)$response->getBody(), User::class, 'json');

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use App\Validator;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
@@ -11,6 +12,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
  * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="`order`")
+ * @Validator\CorrectOwner
  */
 class Order
 {
@@ -37,6 +39,13 @@ class Order
      * @var string
      */
     private $productUuid;
+
+    /**
+     * @ORM\Column(type="uuid")
+     *
+     * @var string
+     */
+    private $productOwnerUuid;
 
     /**
      * @ORM\Column(type="integer")
@@ -111,6 +120,8 @@ class Order
 
     /**
      * @param string $uuid
+     *
+     * @return void
      */
     public function setUuid(string $uuid): void
     {
@@ -127,6 +138,8 @@ class Order
 
     /**
      * @param string $ownerUuid
+     *
+     * @return void
      */
     public function setOwnerUuid(string $ownerUuid): void
     {
@@ -143,10 +156,30 @@ class Order
 
     /**
      * @param string $productUuid
+     *
+     * @return void
      */
     public function setProductUuid(string $productUuid): void
     {
         $this->productUuid = $productUuid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductOwnerUuid(): string
+    {
+        return $this->productOwnerUuid;
+    }
+
+    /**
+     * @param string $productOwnerUuid
+     *
+     * @return void
+     */
+    public function setProductOwnerUuid(string $productOwnerUuid): void
+    {
+        $this->productOwnerUuid = $productOwnerUuid;
     }
 
     /**
@@ -159,6 +192,8 @@ class Order
 
     /**
      * @param int $quantity
+     *
+     * @return void
      */
     public function setQuantity(int $quantity): void
     {
@@ -175,6 +210,8 @@ class Order
 
     /**
      * @param string $productName
+     *
+     * @return void
      */
     public function setProductName(string $productName): void
     {
@@ -191,6 +228,8 @@ class Order
 
     /**
      * @param string $productDescription
+     *
+     * @return void
      */
     public function setProductDescription(string $productDescription): void
     {
@@ -207,6 +246,8 @@ class Order
 
     /**
      * @param int $productPriceAmount
+     *
+     * @return void
      */
     public function setProductPriceAmount(int $productPriceAmount): void
     {
@@ -223,6 +264,8 @@ class Order
 
     /**
      * @param string $productPriceCurrency
+     *
+     * @return void
      */
     public function setProductPriceCurrency(string $productPriceCurrency): void
     {
@@ -239,6 +282,8 @@ class Order
 
     /**
      * @param int $paidPriceAmount
+     *
+     * @return void
      */
     public function setPaidPriceAmount(int $paidPriceAmount): void
     {
@@ -255,6 +300,8 @@ class Order
 
     /**
      * @param string $paidPriceCurrency
+     *
+     * @return void
      */
     public function setPaidPriceCurrency(string $paidPriceCurrency): void
     {

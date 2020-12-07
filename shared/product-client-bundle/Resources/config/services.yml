@@ -6,6 +6,7 @@ services:
         arguments:
             - '@Symfony\Component\Serializer\SerializerInterface'
             - '@Shared\ApiClientSecurityBundle\Factory\ClientFactoryInterface'
+            - '@Shared\ApiGeneralBundle\Utils\ErrorHandler'
             - '%product_client.api_base_url%'
 
     Shared\ProductClientBundle\ProductClientInterface: '@Shared\ProductClientBundle\ProductClient'

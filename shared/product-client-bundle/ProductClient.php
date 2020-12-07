@@ -10,6 +10,7 @@ use Shared\ApiClientSecurityBundle\Client\BaseUrlProviderInterface;
 use Shared\ApiClientSecurityBundle\Factory\ClientFactoryInterface;
 use Shared\ApiGeneralBundle\Exception\Resource\ResourceNotFoundException;
 use Shared\ApiGeneralBundle\Exception\Resource\UnauthorizedResourceException;
+use Shared\ApiGeneralBundle\Utils\ErrorHandler;
 use Shared\ProductDto\Dto\Product;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -29,6 +30,11 @@ class ProductClient implements ProductClientInterface, BaseUrlProviderInterface
     private $httpClient;
 
     /**
+     * @var ErrorHandler
+     */
+    private $errorHandler;
+
+    /**
      * @var string
      */
     private $apiBaseUrl;
@@ -36,17 +42,20 @@ class ProductClient implements ProductClientInterface, BaseUrlProviderInterface
     /**
      * @param SerializerInterface $serializer
      * @param ClientFactoryInterface $httpClientFactory
+     * @param ErrorHandler $errorHandler
      * @param string $apiBaseUrl
      */
     public function __construct(
         SerializerInterface $serializer,
         ClientFactoryInterface $httpClientFactory,
+        ErrorHandler $errorHandler,
         string $apiBaseUrl
     ) {
         $this->apiBaseUrl = $apiBaseUrl;
 
         $this->serializer = $serializer;
         $this->httpClient = $httpClientFactory->createClient($this);
+        $this->errorHandler = $errorHandler;
     }
 
     /**
@@ -65,20 +74,11 @@ class ProductClient implements ProductClientInterface, BaseUrlProviderInterface
     public function createProduct(Product $product): Product
     {
         $request = new Request('POST', self::URI_PRODUCT, [], $this->serializer->serialize($product, 'json'));
-
         $response = $this->httpClient->sendRequest($request);
 
-        if ($response->getStatusCode() === Response::HTTP_BAD_REQUEST) {
-            throw new BadRequestResourceException();
-        }
+        $this->errorHandler->handleResponse($response);
 
-        if ($response->getStatusCode() === Response::HTTP_UNAUTHORIZED) {
-            throw new UnauthorizedResourceException();
-        }
-
-        /**
-         * @var Product $product
-         */
+        /** @var Product $product */
         $product = $this->serializer->deserialize((string)$response->getBody(), Product::class, 'json');
 
         return $product;
@@ -97,13 +97,9 @@ class ProductClient implements ProductClientInterface, BaseUrlProviderInterface
         $request = new Request('GET', $uri);
         $response = $this->httpClient->sendRequest($request);
 
-        if ($response->getStatusCode() !== Response::HTTP_OK) {
-            throw new ResourceNotFoundException();
-        }
+        $this->errorHandler->handleResponse($response);
 
-        /**
-         * @var Product $product
-         */
+        /** @var Product $product */
         $product = $this->serializer->deserialize((string)$response->getBody(), Product::class, 'json');
 
         return $product;
