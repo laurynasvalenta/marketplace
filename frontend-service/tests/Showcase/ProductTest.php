@@ -44,7 +44,7 @@ class ProductTest extends WebTestCase
 
         $this->assertEquals($newProduct->getUuid(), $fetchedProduct->getUuid());
         $this->assertEquals($newProduct->getDescription(), $fetchedProduct->getDescription());
-        $this->assertEquals($newProduct->getQuantityAvailable(), $fetchedProduct->getQuantityAvailable());
+        $this->assertEquals($newProduct->getQuantity(), $fetchedProduct->getQuantity());
         $this->assertEquals($newProduct->getPriceAmount(), $fetchedProduct->getPriceAmount());
         $this->assertEquals($newProduct->getPriceCurrency(), $fetchedProduct->getPriceCurrency());
         $this->assertEquals($newProduct->getOwnerUuid(), $fetchedProduct->getOwnerUuid());

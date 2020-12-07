@@ -37,7 +37,7 @@ class OrderReader implements OrderReaderInterface
         $order->setPaidPriceAmount($orderEntity->getPaidPriceAmount());
         $order->setPaidPriceCurrency($orderEntity->getPaidPriceCurrency());
         $order->setOwnerUuid($orderEntity->getOwnerUuid());
-        $order->setQuantity($orderEntity->getQuantity());
+        $order->setQuantity($orderEntity->getOrderQuantity());
         $order->setProductUuid($orderEntity->getProductUuid());
 
         return $order;

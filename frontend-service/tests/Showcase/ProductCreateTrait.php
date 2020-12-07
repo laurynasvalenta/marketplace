@@ -28,7 +28,7 @@ trait ProductCreateTrait
         $newProduct->setDescription($this->faker->text(455));
         $newProduct->setPriceAmount(1995);
         $newProduct->setPriceCurrency($this->faker->currencyCode);
-        $newProduct->setQuantityAvailable(6);
+        $newProduct->setQuantity(6);
 
         return $this->productClient->createProduct($newProduct);
     }

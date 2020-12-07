@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="`order`")
  * @Validator\CorrectOwner
+ * @Validator\AvailableQuantity
  */
 class Order
 {
@@ -52,7 +53,14 @@ class Order
      *
      * @var integer
      */
-    private $quantity;
+    private $orderQuantity;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @var integer
+     */
+    private $productQuantity;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -185,19 +193,37 @@ class Order
     /**
      * @return int
      */
-    public function getQuantity(): int
+    public function getOrderQuantity(): int
     {
-        return $this->quantity;
+        return $this->orderQuantity;
     }
 
     /**
-     * @param int $quantity
+     * @param int $orderQuantity
      *
      * @return void
      */
-    public function setQuantity(int $quantity): void
+    public function setOrderQuantity(int $orderQuantity): void
     {
-        $this->quantity = $quantity;
+        $this->orderQuantity = $orderQuantity;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProductQuantity(): int
+    {
+        return $this->productQuantity;
+    }
+
+    /**
+     * @param int $productQuantity
+     *
+     * @return void
+     */
+    public function setProductQuantity(int $productQuantity): void
+    {
+        $this->productQuantity = $productQuantity;
     }
 
     /**

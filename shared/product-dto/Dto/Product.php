@@ -17,7 +17,7 @@ class Product
     /**
      * @var int|null
      */
-    private $quantityAvailable;
+    private $quantity;
 
     /**
      * @var string|null
@@ -78,19 +78,19 @@ class Product
     /**
      * @return int|null
      */
-    public function getQuantityAvailable(): ?int
+    public function getQuantity(): ?int
     {
-        return $this->quantityAvailable;
+        return $this->quantity;
     }
 
     /**
-     * @param int|null $quantityAvailable
+     * @param int|null $quantity
      *
      * @return void
      */
-    public function setQuantityAvailable(?int $quantityAvailable): void
+    public function setQuantity(?int $quantity): void
     {
-        $this->quantityAvailable = $quantityAvailable;
+        $this->quantity = $quantity;
     }
 
     /**

@@ -44,7 +44,7 @@ class ProductWriter implements ProductWriterInterface
         $productEntity = new ProductEntity();
         $productEntity->setName($product->getName());
         $productEntity->setDescription($product->getDescription());
-        $productEntity->setQuantityAvailable($product->getQuantityAvailable());
+        $productEntity->setQuantity($product->getQuantity());
         $productEntity->setPriceAmount($product->getPriceAmount());
         $productEntity->setPriceCurrency($product->getPriceCurrency());
         $productEntity->setOwnerUuid($this->getOwnerId());

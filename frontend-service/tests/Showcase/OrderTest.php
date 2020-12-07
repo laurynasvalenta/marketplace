@@ -84,6 +84,29 @@ class OrderTest extends WebTestCase
     }
 
     /**
+     * @test
+     *
+     * @return void
+     */
+    public function buyerCannotOrderMoreItemsThanSellerSells(): void
+    {
+        $this->loginAsACustomer();
+        $product = $this->createProduct();
+
+        /* Log in as another customer */
+        $this->loginAsACustomer();
+
+        $order = new Order();
+        $order->setProductUuid($product->getUuid());
+        $order->setQuantity(4);
+
+        $this->orderClient->createOrder(clone $order);
+
+        $this->expectException(BadRequestResourceException::class);
+        $this->orderClient->createOrder(clone $order);
+    }
+
+    /**
      * @param Order $order
      * @param Order $fetchedOrder
      *

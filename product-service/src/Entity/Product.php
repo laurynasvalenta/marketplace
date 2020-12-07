@@ -29,7 +29,7 @@ class Product
     /**
      * @ORM\Column(type="integer")
      */
-    private $quantityAvailable;
+    private $quantity;
 
     /**
      * @ORM\Column(type="text")
@@ -100,9 +100,9 @@ class Product
     /**
      * @return int|null
      */
-    public function getQuantityAvailable(): ?int
+    public function getQuantity(): ?int
     {
-        return $this->quantityAvailable;
+        return $this->quantity;
     }
 
     /**
@@ -110,9 +110,9 @@ class Product
      *
      * @return void
      */
-    public function setQuantityAvailable(int $quantityAvailable): void
+    public function setQuantity(int $quantityAvailable): void
     {
-        $this->quantityAvailable = $quantityAvailable;
+        $this->quantity = $quantityAvailable;
     }
 
     /**

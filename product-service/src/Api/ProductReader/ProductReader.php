@@ -38,7 +38,7 @@ class ProductReader implements ProductReaderInterface
         $product->setOwnerUuid($productEntity->getOwnerUuid());
         $product->setPriceCurrency($productEntity->getPriceCurrency());
         $product->setPriceAmount($productEntity->getPriceAmount());
-        $product->setQuantityAvailable($productEntity->getQuantityAvailable());
+        $product->setQuantity($productEntity->getQuantity());
         $product->setDescription($productEntity->getDescription());
 
         return $product;

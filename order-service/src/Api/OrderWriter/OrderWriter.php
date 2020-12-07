@@ -110,11 +110,12 @@ class OrderWriter implements OrderWriterInterface
         $orderEntity->setOwnerUuid($this->getOwnerId());
         $orderEntity->setProductUuid((string)$order->getProductUuid());
         $orderEntity->setProductOwnerUuid((string)$product->getOwnerUuid());
-        $orderEntity->setQuantity((int)$order->getQuantity());
+        $orderEntity->setProductQuantity((int)$product->getQuantity());
         $orderEntity->setProductName((string)$product->getName());
         $orderEntity->setProductDescription((string)$product->getDescription());
         $orderEntity->setProductPriceAmount((int)$product->getPriceAmount());
         $orderEntity->setProductPriceCurrency((string)$product->getPriceCurrency());
+        $orderEntity->setOrderQuantity((int)$order->getQuantity());
         $orderEntity->setPaidPriceAmount((int)$product->getPriceAmount());
         $orderEntity->setPaidPriceCurrency((string)$product->getPriceCurrency());
 
